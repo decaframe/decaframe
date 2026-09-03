@@ -1,86 +1,101 @@
 ---
 name: decaframe
-description: Design and author presentations, slide decks, reports and one-pagers with the decaframe MCP tools (add_template_page, set_page, import_markdown, add_items and the rest). Use when asked for a deck, slides, a pitch, a presentation, a visual report or a document page, or whenever the decaframe tools are connected. Covers which block and style to choose, how to compose a page from rows and columns, how to vary a deck so it reads as designed, and the markdown grammar that lays a whole deck down in one call.
+description: Author presentations, slide decks, reports and one-pagers with the decaframe MCP tools. Use when asked for a deck, slides, a pitch, a presentation, a visual report or a document page, or whenever the decaframe tools are connected. Describes what a decaframe document is, how a page is built from rows and columns, every block with its styles and shapes, the templates, and what each tool reply reports back.
 license: UNLICENSED. Commercial; see the decaframe package licence.
 metadata:
   author: decaframe
-  version: "1"
+  version: "2"
 ---
 
-# Designing a deck with decaframe
+# Decaframe, described
 
-A document is a sequence of fixed-size pages, each holding blocks that flow down it. **The theme
-owns every value** — colour, font, size — and **you own every name**: which block, which style,
-which shape, which picture, which surface. A page that merely fits is not finished. A deck whose
-every page wears the shelf's defaults is the commonest failure, and it looks like a correct one.
+A decaframe document is a sequence of fixed-size pages — 16:9 unless `set_document` says
+otherwise — each holding blocks that flow down it. The theme owns every value: colour, font,
+size, spacing. The document holds names: which block, which style, which shape, which picture,
+which surface. A name means the same thing under every theme, so swapping the theme repaints a
+deck without touching it. Everything is addressed by a stable id that `get_document` reports; a
+position or an index is never an address.
 
-This guide only teaches; the decaframe TOOLS do the work, and nothing exists until a tool reply
-says so. There are three ways to author, and the fastest is the third:
+This file describes what exists. The tools do the work, and nothing exists until a tool reply
+says so.
 
-1. **Templates.** `list_templates`, `add_template_page` per page, then `set_page` fills every slot
-   in one call. Each template's `look` says what it wears; change it in the same `set_page`.
-2. **Composition.** `add_blank_page`, then `add_layout` for columns and any block tool (`add_items`,
-   `add_chart` and the rest) into a page or a column, with `variant`, `arrangement`, `iconPosition` and `mark` on the write.
-3. **Markdown.** `import_markdown` with the grammar below lays down pages, their look and every
-   block — the whole deck in one call, or two or three pages per call, since each call appends. Keep
-   a call to what you can write in one go. Read `references/grammar.md` when you use it. Fix what
-   the reply's diagnostics name, and stop when they stop — the document measures itself.
+## How a page is built
 
-Names come from `list_blocks`, `describe_block` and the arguments themselves; every wrong name is
-refused with the right ones listed, and nothing is written. Never guess an id; read it back.
+A page is a stack of rows in reading order. At the top sits its chrome — an eyebrow, a title, a
+subtitle — set by `add_blank_page` or `set_page`; below that come its blocks, each a row of its
+own at the full width of the frame.
 
-## Organise the deck
+A row can instead be a layout of columns. `add_layout` divides one row into `two-cols`,
+`three-cols`, `four-cols` or `five-cols`; each column is a region holding its own stack of one or
+more blocks, and the columns are addressed col-1 onward in reading order. Nothing nests: a
+layout holds blocks and never another layout. A block whose arrangement is a grid — a `box` at
+three, a `stat-row`, `steps` `across` — already lays its items side by side, so a layout is for
+a row whose columns each need a block of their own: a picture beside its words, a chart beside
+the sentence about it, a heading and list against another. Two columns hold a pair of equal
+weight; at four and five a column is narrow enough that it holds a mark and a line rather than a
+paragraph.
 
-- **One claim per page.** The title IS the claim, a sentence a reader could repeat. The eyebrow
-  names the section or the number; the subtitle, when there is one, says what the page shows.
-- **A page holds one or two blocks.** A lead line (`text` at `lg`) over a set, a set over a closing
-  line (`text` at `sm`), a picture beside its words. `xl` is display size, for a cover's title and
-  a one-sentence page; `md` is the default. Three blocks on a page is a page too many.
-- **Open, divide, close.** A cover (accent picture behind display-size text, or a dark page), a
-  divider for each part on a coloured surface, a closer that ends in an action or a contact.
-- **Rhythm.** No two adjacent pages with the same block in the same style. Alternate a paper page
-  with a tinted one; put the deck's one `solid-accent` or `gradient-card` where the numbers are;
-  use `mode=dark` for the cover, the closer, or one page that must land, never for a run of pages.
-- **Density is measured, not guessed.** Count ranges are what a page is designed for; text that
-  overflows comes back as a diagnostic with the remedy. Prefer fewer items with a sentence each to
-  many with a phrase each, and never pad a set to reach a shape.
-- **Emphasis is singular.** `emphasis` on the ONE item a page is about, or on none.
+A page accent is a picture pane, not a column. `lead` and `trail` reserve one side of the page
+for a picture and text does not enter it; `top` is a banner; `full` puts the picture behind
+everything with the words over it. A page also carries a surface — `subtle`, `muted` or
+`accent` — and a mode, `light` or `dark`, of its own, or inherits the document's.
 
-## Rows and columns
+## Page and document properties
 
-- **A grid is already columns.** A `box` at three or four, a `stat-row`, `steps` across — these lay
-  their items side by side. Reach for a layout only when each column needs its OWN block: a heading
-  with a list against another, a chart beside the sentence about it, a picture beside its words.
-- **`two-cols` for a pair of equal weight** — a claim and its evidence, before and after, ours and
-  theirs. `three-cols` when each of three needs a heading of its own; at `four-cols` and
-  `five-cols` a column holds a mark and a line, not a sentence. Nothing nests.
-- **A column holds one or two blocks**, never a grid — a grid inside a column is a column of one.
-- **Rows are the page's flow.** Blocks stack top to bottom in reading order; a stat row IS a row;
-  a `list`-shaped block is one item per row at full width, which is where a paragraph per item goes.
-- **A picture down one side is the page's accent, not a column.** `accent=lead` or `trail` with
-  the picture on `set_page` divides the page and text cannot enter it; `top` is a banner for a wide
-  photograph; `full` puts the picture behind everything with the words over it.
+A page's chrome is three optional lines — an eyebrow, a title and a subtitle — each set on
+`add_blank_page` or `set_page` and removed by passing an empty string, so a page can carry no
+title at all: a full-bleed picture cover, a single quotation, a closing line. A page also has
+`notes` (the presenter's own markdown, shown in the presenter view and never on the slide), a
+`mode` override, a `surface`, and an `accent` with its `accentSrc` and `accentAlt`; null on any
+of these hands it back to the document. `before` on `add_blank_page` and `add_template_page`
+places a page ahead of another by id, and on every block tool places a block ahead of another.
 
-## Choose the block, then the style
+The document, through `set_document`: a `title` (its name, drawn on no page); a `format` — 16:9,
+4:3, A4 as a portrait sheet, or fluid, where pages grow with their content and nothing can
+overflow; an `align` for where blocks sit in a page's leftover height — top, middle or bottom;
+and a `mode`. The theme belongs to the account and is not chosen here. Page furniture — the
+footer's words and mark — is a person's setting in the editor and is not on the tool surface.
 
-Every block sharing an archetype takes the same content, so a `box` becomes `steps` for free with
-`set_block_type` — choose by MEANING. A set with no order is a `box`; ordered stages are `steps`;
-dated events a `timeline`; two to five headline numbers a `stat-row`; compared numbers a `chart`;
-what connects to what a `diagram`; values at the crossing of two things a `table`; and a passage
-is prose, one paragraph per block.
+## Three ways to author, and what each gives you
 
-A **shape** changes how much fits and what the block claims: a `funnel` narrows, a `pyramid`
-rests, a `ring` cycles, a `road` journeys, a `climb` ascends, a `core` contains. Choose the one
-whose claim is true, and only then check the count. A **figure** (starred below) refuses a count
-outside its range. A **style** is paint the theme resolves, the same name under every theme:
-bordered or filled or lifted, a bar on the leading edge, a header on the accent. Pair a filled
-style with a paper page and a bordered one with a tinted page, and let one style carry a section.
+- **A template page.** `list_templates` describes every composed page the shelf holds: its
+  blocks, its shape and its look, and when it suits. `add_template_page` adds one, and `set_page`
+  fills every slot of it in one call — the same call can change any block's style or shape. A
+  template's look is a starting arrangement, not a constraint.
+- **A page of your own.** When no template suits, `add_blank_page` opens an empty page and the
+  block tools — `add_items`, `add_stats`, `add_media`, `add_chart`, `add_diagram`, `add_table`,
+  `add_prose` — place blocks on it or in a column of an `add_layout`, with `variant`,
+  `arrangement`, `iconPosition` and `mark` on the write. A page built this way is as complete as
+  a template page; the shelf is a convenience, not a boundary.
+- **Markdown.** `import_markdown` lays down pages from text; its grammar is on the tool's own
+  description.
+
+Afterwards, `set_block_type` swaps a block for another of the same archetype and keeps its
+content; the update tools (`update_items`, `update_prose` and the rest) rewrite content in place; `set_layout` changes a row's columns;
+`remove_block` and `remove_page` take things away. Names come from `list_blocks`,
+`describe_block` and the arguments themselves.
+
+## Blocks, styles and shapes
+
+Every block belongs to an archetype, and every block sharing one takes identical content — which
+is what lets `set_block_type` turn a `box` into `steps` with nothing rewritten. A set with no
+order is a `box`; ordered stages are `steps`; dated events a `timeline`; two to five headline
+numbers a `stat-row`; compared numbers a `chart`; what connects to what a `diagram`; values at
+the crossing of two things a `table`; a passage is prose, one paragraph per block, and a `text` block
+has four sizes — `sm`, `md`, `lg` and `xl`, the last being display size for a cover's one line.
+
+A **shape** (the `arrangement`) changes how much fits and what the block claims: a `funnel`
+narrows, a `pyramid` rests, a `ring` cycles, a `road` journeys, a `climb` ascends, a `core`
+contains. A **figure** is an illustrated shape, and its count range is a limit: a write outside
+it is refused. A **style** (the `variant`) is paint the theme resolves, the same name under every
+theme — bordered or filled or lifted, a bar on the leading edge, a header on the accent. A filled
+style reads against a paper page and a bordered one against a tinted page.
 
 <!-- generated: do not edit between these markers; `pnpm skill` rewrites them -->
 
 ### Every block
 
-Prose blocks — `text` (md/lg/xl/sm), `heading`, `bullets`, `numbered`, `quote`, `checklist`, `separator`, `code` — go through `add_prose` or plain markdown. The rest:
+Prose blocks — `text` (md/lg/xl/sm), `heading`, `bullets`, `numbered`, `quote`, `checklist`, `separator`, `code` — go through `add_prose`, one line per block. The rest:
 
 | Block | What it is | Items | Shapes (*figure = illustrated, count is a LIMIT) | Styles besides `plain` | Marks |
 |---|---|---|---|---|---|
@@ -159,51 +174,50 @@ Icon position on a block that draws icons: top, lead, none. A page's accent pict
 
 ## Icons and marks
 
-Give every item of a block an icon or give none; a set where some have icons reads as unfinished.
-Pick from one shelf per block so they read as a family. On `steps` and `timeline` the **mark** is
-what the items are marked with — a numeral, a dot, the item's own icon — and `marked` is the style
-that sets the mark apart in a filled disc.
+An item of a `box`, `steps` or `timeline` can carry an icon from the shelves above, and a set
+reads as a family when its icons come from one shelf and as unfinished when some items have one
+and others none. On `steps` and `timeline` the **mark** is what the items are marked with — a
+numeral, a dot, the item's own icon — and `marked` is the style that sets the mark apart in a
+filled disc. `emphasis` on an item is the one the page is about.
 
 ## Pictures, video, charts, diagrams
 
-A picture needs a real https address; there is no upload, and a page renders an empty frame until
-one arrives. `image` carries the point alone; `image-with-text` needs its words; `image-grid` is
-a set; `people` is a roster with a name, a role and a line each; `youtube` is one video. A chart
-takes `{categories, series}` — pick its kind by what the numbers DO: `column` compares, `line`
-follows, `area` accumulates, `pie` and `donut` are one series of shares, `waterfall` is steps
-not totals, `heatmap` is the matrix the payload already is. A diagram is mermaid text; write the
-relationships and let the engine place the boxes. Always write the sentence a chart or diagram
-is there to prove, above or below it.
+A picture is an https address; there is no upload, and a page renders an empty frame until one
+arrives. `image` carries a point alone; `image-with-text` pairs a picture with its words;
+`image-grid` is a set of pictures; `people` is a roster with a name, a role and a line each;
+`youtube` is one video. A chart takes `{categories, series}`, and its kind says what the numbers
+do: `column` compares, `line` follows, `area` accumulates, `pie` and `donut` are one series of
+shares, `waterfall` is steps rather than totals, `heatmap` is the matrix the payload already is.
+A diagram is mermaid text — the relationships written down, with the engine placing the boxes.
 
-## Write it as markdown
+## What the tools report back
 
-```markdown
-# The three-stage rollout
-::page: eyebrow="Rollout" surface=muted::
+Every reply says whether it went through. A refusal names its subject, the reason and the valid
+names, and nothing is written; a wrong block, style, shape, icon or id is refused this way rather
+than guessed at.
 
-::text: arrangement=lg::
-Each stage was a gate for the next.
+A write reply carries the page as it now stands, and its diagnostics: each names a code, the
+page, the block where there is one, and a message that says what is wrong and the change that
+fixes it. A missing slot, a count outside a range, an empty page and the placeholder block a new
+document starts with are structural diagnostics, and while one stands the page's fit is not
+measured — the reply says so in as many words.
 
-::steps: arrangement=staircase variant=top-rule::
-### Dogfood {icon=users meta="April"}
-Every employee on the new flow.
-### Ten percent {icon=filter meta="May" emphasis}
-One flag from rollback.
-### Everyone {icon=rocket meta="June"}
-The old flow retired.
-::end::
-```
+Pages are a fixed size, so after every write the page is rendered and measured against its
+frame. A page that runs over is drawn smaller to fit, down to a floor of 80% of full size, and
+the reply carries an advisory saying at what size it is drawn. Past the floor the page is still
+over, and a pageOverflow diagnostic says how many pixels past the frame it runs, names the
+tallest slot or the block that would move to the next page, and — on the write after — says
+whether that number went down, up or did not move at all. No fit field on a reply means the
+page was measured and fits. A fit field means the page could not be measured: its diagnostics
+are still open, the document is fluid and cannot overflow, or the renderer had a problem.
 
-A `#` heading or a `::page…::` line starts a page; a block marker opens a block and the headings
-under it are its items; `::end::` closes it. The full grammar, every marker and key, is in
-`references/grammar.md`; every block's complete guidance is in `references/catalogue.md`.
+A page can also come back with a fill advisory — the page uses little of its frame — which is
+information and asks for no action; a divider or a single quotation is sparse on purpose.
 
-## Before you finish
+`get_document` returns the whole document: every page, every block with its id and archetype,
+and every diagnostic at once. It is how ids are learned and how the document is confirmed — a
+page that has not been read back is not known to exist. `export_html` writes one self-contained
+file; `open_document` points the tools at a different document file.
 
-- Every page has a title that is a claim, and no page has three blocks.
-- No two adjacent pages share a block and a style; the deck has a cover, dividers and a closer.
-- Every set has icons on all items or none; every figure's count is inside its limit.
-- Every picture has a real address; every chart and diagram has its sentence.
-- `get_document` reports no diagnostic, and you did not add words to fill space.
-- You read the document back and every page is in it. A page you have not read back does not
-  exist, and saying it does is the one failure nothing here can catch.
+Every block's complete guidance, and every template with what it wears, is in
+`references/catalogue.md`.
