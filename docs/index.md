@@ -6,9 +6,9 @@
 npm install -g decaframe
 ```
 
-Node 22 or later. The install brings the headless browser the export renders with, so nothing else
-is downloaded on first use. On Linux the browser needs the usual system libraries; the export says
-so if they are missing.
+Node 22 or later. The headless browser the export renders with is downloaded once, in the background, the
+first time `deca` runs, about 100 MB from Playwright's own servers. On Linux the browser needs the usual system libraries; the
+export says so if they are missing.
 
 ## Connect an agent
 
