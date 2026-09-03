@@ -1,0 +1,11 @@
+{
+  "name": "decaframe",
+  "owner": { "name": "decaframe" },
+  "plugins": [
+    {
+      "name": "decaframe",
+      "source": "./skills/decaframe",
+      "description": "The decaframe MCP server and the skill that teaches an agent to design a deck with it"
+    }
+  ]
+}

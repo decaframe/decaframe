@@ -1,0 +1,7 @@
+{
+  "name": "decaframe",
+  "description": "Design and author decks, reports and one-pagers: the decaframe MCP server plus the skill that teaches composition",
+  "version": "0.1.0",
+  "author": { "name": "decaframe" },
+  "keywords": ["presentation", "slides", "deck", "report", "design", "document", "charts", "mermaid", "one-pager"]
+}

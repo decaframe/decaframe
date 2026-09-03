@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "decaframe": {
+      "command": "npx",
+      "args": ["-y", "decaframe", "mcp"]
+    }
+  }
+}
