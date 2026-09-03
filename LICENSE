@@ -1,0 +1,32 @@
+decaframe Licence
+
+Copyright (c) 2026 decaframe. All rights reserved.
+
+This is proprietary software. It is licensed, not sold.
+
+1. Grant. Subject to these terms, you may install and use the decaframe package as
+   distributed through the npm registry, including the command it provides and the editor
+   and browser it ships with, to create, edit and export documents for your own purposes,
+   including commercial ones.
+
+2. Restrictions. You may not copy, modify, adapt, translate, reverse engineer, decompile,
+   disassemble or create derivative works of the software or any part of it; redistribute,
+   sublicense, rent, lease or lend it; or use it to build a competing product or service. The
+   software carries no source code, and no licence to any is granted.
+
+3. Your documents are yours. Nothing here claims any right in the content you author or
+   export with the software.
+
+4. Third-party components. The software includes open-source components under their own
+   licences, whose notices travel with it, and a Chromium-based browser licensed under the
+   terms distributed beside it. Those terms govern those components.
+
+5. No warranty. The software is provided "as is", without warranty of any kind, express or
+   implied, including merchantability, fitness for a particular purpose and non-infringement.
+   To the fullest extent permitted by law, decaframe is not liable for any damages arising
+   from its use.
+
+6. Termination. This licence ends automatically if you breach it. On termination you must
+   stop using the software and delete every copy.
+
+For any other use, contact decaframe.
