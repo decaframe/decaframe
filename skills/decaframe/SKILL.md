@@ -1,6 +1,6 @@
 ---
 name: decaframe
-description: Author presentations, slide decks, reports and one-pagers with the decaframe MCP tools. Use when asked for a deck, slides, a pitch, a presentation, a visual report or a document page, or whenever the decaframe tools are connected. Describes what a decaframe document is, how a page is built from rows and columns, every block with its styles and shapes, the templates, and what each tool reply reports back.
+description: Author presentations, slide decks, reports and one-pagers with the decaframe MCP tools. Use when asked for a deck, slides, a pitch, a presentation, a visual report or a document page, or whenever the decaframe tools are connected. Describes what a decaframe document is, how a page is built from rows and columns, every block with its styles and shapes, the templates, how a deck moves when it is presented, and what each tool reply reports back.
 license: UNLICENSED. Commercial; see the decaframe package licence.
 metadata:
   author: decaframe
@@ -53,8 +53,45 @@ places a page ahead of another by id, and on every block tool places a block ahe
 The document, through `set_document`: a `title` (its name, drawn on no page); a `format` — 16:9,
 4:3, A4 as a portrait sheet, or fluid, where pages grow with their content and nothing can
 overflow; an `align` for where blocks sit in a page's leftover height — top, middle or bottom;
-and a `mode`. The theme belongs to the account and is not chosen here. Page furniture — the
-footer's words and mark — is a person's setting in the editor and is not on the tool surface.
+and a `mode`; and motion, described in its own section below. The theme belongs to the account
+and is not chosen here. Page
+furniture — the footer's words and mark — is a person's setting in the editor and is not on the
+tool surface.
+
+## Motion
+
+A document can move while it is presented — in the exported file and in the editor's presentation
+mode — and never while it is edited. Motion is names, not numbers: you choose what happens and the
+stylesheet decides how long it takes.
+
+Four names on `set_document`, each with a default that is the plainest choice:
+
+- `transition` — how one page gives way to the next: slide (the default), fade, zoom or none.
+- `animate` — how blocks enter a page: none (the default), fade, rise (a fade with a small
+  lift) or grow (a fade from slightly small). With animate set, blocks enter in reading order,
+  one after another.
+- `build` — when blocks enter: arrive (the default: every block with the page) or click (one
+  block per keypress, the way a presenter walks a slide). Under click the deck advances through a
+  page's blocks before it moves to the next page, and going back re-hides them one at a time; a
+  page reached backwards arrives fully shown.
+- `pace` — how quickly all of it plays: slow, medium (the default) or fast.
+
+A page may override `animate`, `build` and `pace` through `set_page`; null hands the choice back
+to the document. A page with build set to click and nothing set on the document is a common
+shape: the deck flows, one page builds.
+
+One name on a prose block, `reveal`, set through `add_prose` or `update_prose` and cleared with
+none: words shows the text one word at a time, type types it out character by character, and
+click makes each item of a list its own step, so a bulleted argument lands point by point. A
+reveal obeys the page's build — under arrive it plays when the page lands, under click it plays
+when the block's own click comes. The reveal's own look is the page's `animate`, or a fade when
+that is none.
+
+What a reader sees: an entrance begins only once its page has settled on screen, a block enters
+exactly once, and someone who has asked their system for reduced motion gets every step and reveal
+with no movement at all. The presenter view shows how many of a page's steps are revealed.
+`get_document` reads every motion name back; nothing about motion is reported as a diagnostic,
+because motion cannot make a page overflow.
 
 ## Three ways to author, and what each gives you
 
@@ -112,7 +149,7 @@ Prose blocks — `text` (md/lg/xl/sm), `heading`, `bullets`, `numbered`, `quote`
 | `chart` | A chart of one or more named series over shared categories. | 2–11 | column 2–11, bar 2–15, line 2–11, area 2–11, pie 2–6, donut 2–6, waterfall 2–11, heatmap 2–11 | — | — |
 | `diagram` | A diagram, written as mermaid text. | 1 | — | — | — |
 
-Icon position on a block that draws icons: top, lead, none. A page's accent picture sits top, lead, trail, full; its surface is subtle, muted, accent or the theme's paper; its mode is light or dark.
+Icon position on a block that draws icons: top, lead, none. A page's accent picture sits top, lead, trail, full; its surface is subtle, muted, accent or the theme's paper; its mode is light or dark. Motion is named, never timed: a document's transition is slide, fade, zoom, none; blocks animate none, fade, rise, grow and build by arrive or click at a pace of slow, medium, fast; a prose block reveals by words, type, click.
 
 ### What each style looks like
 
