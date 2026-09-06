@@ -119,7 +119,7 @@ is what lets `set_block_type` turn a `box` into `steps` with nothing rewritten. 
 order is a `box`; ordered stages are `steps`; dated events a `timeline`; two to five headline
 numbers a `stat-row`; compared numbers a `chart`; what connects to what a `diagram`; values at
 the crossing of two things a `table`; a passage is prose, one paragraph per block, and a `text` block
-has four sizes — `sm`, `md`, `lg` and `xl`, the last being display size for a cover's one line.
+has five sizes — `sm`, `md`, `lg`, `xl` and `hero`, the last two being display sizes: `xl` for a closing line, `hero` for a cover's or divider's title at five times body.
 
 A **shape** (the `arrangement`) changes how much fits and what the block claims: a `funnel`
 narrows, a `pyramid` rests, a `ring` cycles, a `road` journeys, a `climb` ascends, a `core`
@@ -132,20 +132,20 @@ style reads against a paper page and a bordered one against a tinted page.
 
 ### Every block
 
-Prose blocks — `text` (md/lg/xl/sm), `heading`, `bullets`, `numbered`, `quote`, `checklist`, `separator`, `code` — go through `add_prose`, one line per block. The rest:
+Prose blocks — `text` (md/lg/xl/hero/sm), `heading`, `bullets`, `numbered`, `quote`, `checklist`, `separator`, `code` — go through `add_prose`, one line per block. The rest:
 
 | Block | What it is | Items | Shapes (*figure = illustrated, count is a LIMIT) | Styles besides `plain` | Marks |
 |---|---|---|---|---|---|
-| `box` | Icon-led boxes, as a grid or a list. At one, a callout. | 1–9 | grid 1–9, list 2–6 | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, header-band, accent-header | — |
-| `steps` | A numbered sequence — across, as a staircase, a funnel, a pyramid, or a ring. | 2–6 | across 2–6, list 2–6, staircase 2–5, funnel 2–5, pyramid 2–5, ring 2–5, road* 3–4, climb* 3–5, core* 3 | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, marked | numeral, icon, none |
-| `timeline` | Dated milestones on a vertical rail. | 3–8 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, marked | dot, icon |
-| `stat-row` | A row of large figures. | 2–5 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner | — |
-| `image` | One picture, with an optional caption. | 1 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner | — |
-| `image-grid` | Two to six pictures in a grid. | 2–6 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner | — |
-| `image-with-text` | One picture on the left, a heading and a paragraph beside it. | 1 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner | — |
-| `table` | A grid of rows and columns with a header row. | 2–9 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, banded, header-band | — |
-| `people` | Two to eight people, each a portrait with a name, a role and a line. | 2–8 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner | — |
-| `youtube` | One YouTube video, with an optional caption. | 1 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner | — |
+| `box` | Icon-led boxes, as a grid or a list. At one, a callout. | 1–9 | grid 1–9, list 2–6 | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, header-band, accent-header, tinted | — |
+| `steps` | A numbered sequence — across, as a staircase, a funnel, a pyramid, or a ring. | 2–6 | across 2–6, list 2–6, staircase 2–5, funnel 2–5, pyramid 2–5, ring 2–5, road* 3–4, climb* 3–5, core* 3 | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, marked, tinted | numeral, icon, none |
+| `timeline` | Dated milestones on a vertical rail. | 3–8 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, marked, tinted | dot, icon |
+| `stat-row` | A row of large figures. | 2–5 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, tinted | — |
+| `image` | One picture, with an optional caption. | 1 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, tinted | — |
+| `image-grid` | Two to six pictures in a grid. | 2–6 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, tinted | — |
+| `image-with-text` | One picture on the left, a heading and a paragraph beside it. | 1 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, tinted | — |
+| `table` | A grid of rows and columns with a header row. | 2–9 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, banded, header-band, tinted | — |
+| `people` | Two to eight people, each a portrait with a name, a role and a line. | 2–8 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, tinted | — |
+| `youtube` | One YouTube video, with an optional caption. | 1 | — | accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card, gradient-card, solid-accent, leaf-corner, tinted | — |
 | `chart` | A chart of one or more named series over shared categories. | 2–11 | column 2–11, bar 2–15, line 2–11, area 2–11, pie 2–6, donut 2–6, waterfall 2–11, heatmap 2–11 | — | — |
 | `diagram` | A diagram, written as mermaid text. | 1 | — | — | — |
 
@@ -167,6 +167,7 @@ Icon position on a block that draws icons: top, lead, none. A page's accent pict
 - `header-band` — the header row on its own plane (box, table)
 - `accent-header` — eyebrow and title on the accent, body on paper (box)
 - `marked` — the numeral or dot in a filled disc (steps, timeline)
+- `tinted` — a plane in the theme's own hue, ink to match
 
 ### What each shape claims
 
@@ -196,6 +197,7 @@ Icon position on a block that draws icons: top, lead, none. A page's accent pict
 - `three-cols` (3 regions): Three parallel things that each need a block of their own rather than one entry.
 - `four-cols` (4 regions): Four parallel things, each about a QUARTER of the frame — a logo row, four figures, a quarter-by-quarter split.
 - `five-cols` (5 regions): Five parallel things.
+- `lead-and-rest` (2 regions): One thing that LEADS and something beside it — five-eighths and three-eighths.
 
 ### Icons, by shelf
 
