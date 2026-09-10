@@ -12,18 +12,26 @@ export says so if they are missing.
 
 ## Connect an agent
 
-Add the server to your client. For Claude Code, Cursor, Windsurf and most others the entry is:
+Almost every client takes the same block, in whichever file it keeps its MCP servers in:
 
 ```json
 { "mcpServers": { "decaframe": { "command": "npx", "args": ["-y", "decaframe", "mcp"] } } }
 ```
 
-Then ask for a deck. The document is written to `document.json` in the folder the agent works in;
-set `DECAFRAME_DOC` to put it elsewhere. The skill that teaches an agent to design with the tools:
+Some want a command instead, and Cursor, VS Code, LM Studio, Kiro and Goose each publish a one-click
+install link. All of them, with the exact file path for each: **[install.md](install.md)**, or
+[decaframe.com/install](https://decaframe.com/install).
+
+Then add the skill, which teaches an agent to design rather than merely fill pages. One command
+writes it into about eighty agents:
 
 ```bash
 npx skills add decaframe/decaframe
 ```
+
+Then ask for a deck. The document is a `.json` file named from its title the first time you give it
+one. It is written in the folder your agent works in — or, when the agent starts somewhere nobody
+works (a desktop app usually does), in `Documents/Decaframe`. `DECAFRAME_DOC` names it yourself.
 
 ## Open a document yourself
 
@@ -42,6 +50,6 @@ without it: a system font, a still frame, a placeholder.
 
 ## The skill
 
-`skills/decaframe/SKILL.md` teaches composition: which block and style to choose, how to build a
+`plugin/skills/decaframe/SKILL.md` teaches composition: which block and style to choose, how to build a
 page from rows and columns, how to vary a deck so it reads as designed, and the markdown grammar
 that lays a whole deck down in one call. `references/` carries the catalogue and the grammar.
