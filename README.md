@@ -16,7 +16,8 @@ on a website or a phone.
 - **The package:** `npm install -g decaframe`
 - **The skill, for about eighty agents:** `npx skills add decaframe/decaframe`
 - **Claude Code and the Claude desktop app:** `/plugin marketplace add decaframe/decaframe` then `/plugin install decaframe@decaframe`
-- **Codex and the ChatGPT desktop app:** `codex plugin marketplace add decaframe/decaframe` then `codex plugin add decaframe@decaframe`
+- **The ChatGPT desktop app:** Settings › Plugins › Add › Add marketplace, source `decaframe/decaframe`, then install it from the Marketplace tab
+- **Codex:** `codex plugin marketplace add decaframe/decaframe` then `codex plugin add decaframe@decaframe`
 
 decaframe is commercial software. The package licence is in the package; the text in this
 repository is © 2026 decaframe, all rights reserved, and may be read and installed as a skill

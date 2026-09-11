@@ -58,21 +58,17 @@ This works in the desktop app only. Plugins that run a program on your computer 
 
 ### ChatGPT (desktop app only)
 
-The same plugin Claude uses carries both the tools and the skill. ChatGPT and Codex share one plugin setup, so add it once from a terminal:
+Open Settings › Plugins, choose Add › Add marketplace, and paste this as the source:
 
-Add the marketplace:
-
-```bash
-codex plugin marketplace add decaframe/decaframe
-```
-
-Install the tools and the skill together:
+The marketplace:
 
 ```bash
-codex plugin add decaframe@decaframe
+decaframe/decaframe
 ```
 
-This needs the Codex CLI (npm install -g @openai/codex). Restart ChatGPT and decaframe is under Plugins, turned on. Or, with no plugin, open Settings › MCP servers › Add server, choose STDIO, name it decaframe and give it the command npx -y decaframe mcp.
+Leave the git ref on main and the sparse paths empty. Then install decaframe from the Marketplace tab. The plugin carries both the tools and the skill, so there is nothing else to add.
+
+In a chat, type @decaframe to call it, or just ask for a deck. ChatGPT and Codex share one plugin setup, so it is in Codex too.
 
 This works in the desktop app only. ChatGPT on the web and on your phone cannot start a program on your computer.
 
