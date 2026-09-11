@@ -1,15 +1,15 @@
 # Installing decaframe
 
-Decaframe is two things: the **tools** your agent builds a deck with, and a **skill** that
-teaches it to use them well. You need Node 22 or later.
+Decaframe adds two things to your agent: the **tools** it builds a deck with, and a **skill**
+that teaches it to use them well. You need Node 22 or later.
 
 **Decaframe runs on your computer.** Your agent starts it as a program, so it works in apps
-that can start one — desktop apps and coding agents — and not on a website or a phone.
+that can start one, which means desktop apps and coding agents, and not on a website or a phone.
 
-- **The Claude website and the Claude phone apps** — Use the Claude desktop app.
-- **ChatGPT on the web and on your phone** — Use the ChatGPT desktop app.
-- **Claude in Chrome, and Gemini in Chrome** — A browser extension cannot start a program.
-- **Anything that reaches a server over the internet** — Decaframe runs beside you, not in a data centre. That is what keeps it free and your work yours.
+- **The Claude website and the Claude phone apps**: Use the Claude desktop app.
+- **ChatGPT on the web and on your phone**: Use the ChatGPT desktop app.
+- **Claude in Chrome, and Gemini in Chrome**: A browser extension cannot start a program.
+- **Any agent that only reaches servers over the internet**: Decaframe runs on your computer, which is what keeps it free and keeps your work private.
 
 ## The short version
 
@@ -50,25 +50,31 @@ The marketplace:
 decaframe/decaframe
 ```
 
-Then install decaframe from it. The plugin carries both halves — the tools and the skill — so there is nothing else to add.
+Then install decaframe from it. The plugin carries both the tools and the skill, so there is nothing else to add.
 
-Then ask in Cowork, not in Chat. Plugins run in Cowork and in Claude Code; Chat does not use them. In Chat the skill still loads, so Claude will happily plan a deck and then find no tools — the install is fine, the tab is wrong.
+Then ask in Cowork, not in Chat. Plugins run in Cowork and in Claude Code. Chat does not use them, so if Claude plans a deck there and then cannot build it, nothing is broken. Switch to the Cowork tab and ask again.
 
-The desktop app is the whole of it: plugins that run a program on your computer do not work on the Claude website or on your phone.
+This works in the desktop app only. Plugins that run a program on your computer do not work on the Claude website or on your phone.
 
 ### ChatGPT (desktop app only)
 
-Open Settings › MCP servers › Add server, choose STDIO, name it decaframe and give it this command:
+The same plugin Claude uses carries both the tools and the skill. ChatGPT and Codex share one plugin setup, so add it once from a terminal:
 
-The command:
+Add the marketplace:
 
 ```bash
-npx -y decaframe mcp
+codex plugin marketplace add decaframe/decaframe
 ```
 
-Restart the app. For the skill, see the Codex panel — the two share their settings.
+Install the tools and the skill together:
 
-The desktop app only. ChatGPT on the web and on your phone reach servers over the internet and cannot start one here.
+```bash
+codex plugin add decaframe@decaframe
+```
+
+This needs the Codex CLI (npm install -g @openai/codex). Restart ChatGPT and decaframe is under Plugins, turned on. Or, with no plugin, open Settings › MCP servers › Add server, choose STDIO, name it decaframe and give it the command npx -y decaframe mcp.
+
+This works in the desktop app only. ChatGPT on the web and on your phone cannot start a program on your computer.
 
 ### OpenClaw
 
@@ -84,11 +90,11 @@ The skill:
 npx skills add decaframe/decaframe
 ```
 
-Check it with openclaw mcp doctor decaframe --probe. OpenClaw also keeps its servers under mcp.servers in its config, if you would rather write it there.
+Check it with openclaw mcp doctor decaframe --probe. If you would rather edit the config by hand, OpenClaw keeps its servers under mcp.servers.
 
 ### Hermes (Nous Research)
 
-Add this to your config — `~/.hermes/config.yaml`:
+Add this to your config (`~/.hermes/config.yaml`):
 
 ```json
 mcp_servers:
@@ -115,7 +121,7 @@ npx skills add decaframe/decaframe
 
 ### Warp
 
-Add decaframe to that file — `~/.warp/.mcp.json`:
+Add decaframe to that file (`~/.warp/.mcp.json`):
 
 ```json
 {
@@ -142,9 +148,9 @@ npx skills add decaframe/decaframe
 
 [Add to Goose](goose://extension?type=stdio&id=decaframe&name=Decaframe&description=Decks%2C%20reports%20and%20one-pagers&cmd=npx&arg=-y&arg=decaframe&arg=mcp)
 
-Or add it by hand — Goose keeps its servers in YAML, not JSON:
+Or add it by hand. Goose keeps its servers in YAML, not JSON:
 
-The tools — `~/.config/goose/config.yaml`:
+The tools (`~/.config/goose/config.yaml`):
 
 ```json
 extensions:
@@ -169,7 +175,7 @@ npx skills add decaframe/decaframe
 
 Or open the Program tab, choose Install › Edit mcp.json and add:
 
-The tools — `mcp.json`:
+The tools (`mcp.json`):
 
 ```json
 {
@@ -186,7 +192,7 @@ The tools — `mcp.json`:
 }
 ```
 
-LM Studio does not read skills, so the deck is built from the tools alone. A larger model makes a better job of it.
+LM Studio does not read skills, so the deck is built from the tools alone. A larger model does a better job of it.
 
 ### Jan
 
@@ -200,7 +206,7 @@ npx skills add decaframe/decaframe
 
 ### AnythingLLM
 
-In your storage folder, under plugins — `anythingllm_mcp_servers.json`:
+In your storage folder, under plugins (`anythingllm_mcp_servers.json`):
 
 ```json
 {
@@ -221,7 +227,7 @@ In your storage folder, under plugins — `anythingllm_mcp_servers.json`:
 
 Settings › MCP › MCP Servers › Add. Command npx, arguments -y decaframe mcp.
 
-Then turn the server on and bind it to your agent under Work › your agent › Edit › MCP — Cherry Studio keeps the two steps apart, and a server nobody has bound is a server your agent cannot see.
+Then turn the server on and bind it to your agent under Work › your agent › Edit › MCP. Cherry Studio keeps these as two separate steps, and your agent cannot see a server until it is bound.
 
 ## Coding agents
 
@@ -253,7 +259,7 @@ claude mcp add --scope user decaframe -- npx -y decaframe mcp
 
 Or add it by hand:
 
-Add decaframe to that file — `~/.cursor/mcp.json`:
+Add decaframe to that file (`~/.cursor/mcp.json`):
 
 ```json
 {
@@ -296,13 +302,27 @@ npx skills add decaframe/decaframe
 
 ### Codex (CLI and the IDE extension)
 
-The tools:
+Add the marketplace:
+
+```bash
+codex plugin marketplace add decaframe/decaframe
+```
+
+Install the tools and the skill together:
+
+```bash
+codex plugin add decaframe@decaframe
+```
+
+Plugins are not available in the IDE extension. There, or with no plugin, add the tools on their own:
+
+The tools alone:
 
 ```bash
 codex mcp add decaframe -- npx -y decaframe mcp
 ```
 
-The skill:
+The skill alone:
 
 ```bash
 npx skills add decaframe/decaframe
@@ -338,7 +358,7 @@ npx skills add decaframe/decaframe
 
 ### Cline
 
-Add decaframe to that file — `~/.cline/data/settings/cline_mcp_settings.json`:
+Add decaframe to that file (`~/.cline/data/settings/cline_mcp_settings.json`):
 
 ```json
 {
@@ -363,7 +383,7 @@ npx skills add decaframe/decaframe
 
 ### Zed
 
-Zed calls them context servers — `~/.config/zed/settings.json`:
+Zed calls them context servers (`~/.config/zed/settings.json`):
 
 ```json
 {
@@ -392,7 +412,7 @@ npx skills add decaframe/decaframe
 
 Or by hand:
 
-Add decaframe to that file — `~/.kiro/settings/mcp.json`:
+Add decaframe to that file (`~/.kiro/settings/mcp.json`):
 
 ```json
 {
@@ -431,7 +451,7 @@ npx skills add decaframe/decaframe
 
 ### OpenCode
 
-OpenCode takes the command as a list — `opencode.json`:
+OpenCode takes the command as a list (`opencode.json`):
 
 ```json
 {
@@ -483,5 +503,5 @@ The skill, for about eighty agents:
 npx skills add decaframe/decaframe
 ```
 
-If your agent has a different shape for it, tell us and we will add a panel for it.
+If your agent expects a different shape, tell us and we will add a panel for it.
 
