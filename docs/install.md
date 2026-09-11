@@ -40,7 +40,7 @@ Full instructions for each agent: https://decaframe.com/install
 
 ## Apps you chat with
 
-### Claude Desktop (and Cowork)
+### Claude Cowork (the desktop app)
 
 Open Customize › Plugins in the sidebar, choose Add marketplace and paste:
 
@@ -51,6 +51,8 @@ decaframe/decaframe
 ```
 
 Then install decaframe from it. The plugin carries both halves — the tools and the skill — so there is nothing else to add.
+
+Then ask in Cowork, not in Chat. Plugins run in Cowork and in Claude Code; Chat does not use them. In Chat the skill still loads, so Claude will happily plan a deck and then find no tools — the install is fine, the tab is wrong.
 
 The desktop app is the whole of it: plugins that run a program on your computer do not work on the Claude website or on your phone.
 

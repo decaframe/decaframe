@@ -19,6 +19,13 @@ position or an index is never an address.
 This file describes what exists. The tools do the work, and nothing exists until a tool reply
 says so.
 
+**If the decaframe tools are not connected, say so and stop rather than planning a deck you
+cannot build.** This file loads wherever the skill is installed, including surfaces that cannot
+run a local program — Claude's Chat, the Claude website and phone apps, ChatGPT on the web. The
+tools run on the person's own computer and are reached from Claude Cowork or Claude Code, the
+ChatGPT desktop app, Cursor, Codex, LM Studio and about twenty more. Name the surface they are
+in and the one to move to; the install is almost never the problem. decaframe.com/install.
+
 ## How a page is built
 
 A page is a stack of rows in reading order. At the top sits its chrome — an eyebrow, a title, a
