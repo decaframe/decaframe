@@ -29,10 +29,10 @@ in and the one to move to; the install is almost never the problem. decaframe.co
 ## How a page is built
 
 A page is a stack of rows in reading order. At the top sits its chrome — an eyebrow, a title, a
-subtitle — set by `add_blank_page` or `set_page`; below that come its blocks, each a row of its
+subtitle — set by `add_page` or `set_page`; below that come its blocks, each a row of its
 own at the full width of the frame.
 
-A row can instead be a layout of columns. `add_layout` divides one row into `two-cols`,
+A row can instead be a layout of columns. `add_block` with a layout as its `type` divides one row into `two-cols`,
 `three-cols`, `four-cols` or `five-cols`; each column is a region holding its own stack of one or
 more blocks, and the columns are addressed col-1 onward in reading order. Nothing nests: a
 layout holds blocks and never another layout. A block whose arrangement is a grid — a `box` at
@@ -50,12 +50,12 @@ everything with the words over it. A page also carries a surface — `subtle`, `
 ## Page and document properties
 
 A page's chrome is three optional lines — an eyebrow, a title and a subtitle — each set on
-`add_blank_page` or `set_page` and removed by passing an empty string, so a page can carry no
+`add_page` or `set_page` and removed by passing an empty string, so a page can carry no
 title at all: a full-bleed picture cover, a single quotation, a closing line. A page also has
 `notes` (the presenter's own markdown, shown in the presenter view and never on the slide), a
 `mode` override, a `surface`, and an `accent` with its `accentSrc` and `accentAlt`; null on any
-of these hands it back to the document. `before` on `add_blank_page` and `add_template_page`
-places a page ahead of another by id, and on every block tool places a block ahead of another.
+of these hands it back to the document. `before` on `add_page` places a page ahead of another
+by id, and on `add_block` places a block ahead of another.
 
 The document, through `set_document`: a `title` (its name, drawn on no page); a `format` — 16:9,
 4:3, A4 as a portrait sheet, or fluid, where pages grow with their content and nothing can
@@ -87,7 +87,7 @@ A page may override `animate`, `build` and `pace` through `set_page`; null hands
 to the document. A page with build set to click and nothing set on the document is a common
 shape: the deck flows, one page builds.
 
-One name on a prose block, `reveal`, set through `add_prose` or `update_prose` and cleared with
+One name on a prose block, `reveal`, set through `add_block` or `set_block` and cleared with
 none: words shows the text one word at a time, type types it out character by character, and
 click makes each item of a list its own step, so a bulleted argument lands point by point. A
 reveal obeys the page's build — under arrive it plays when the page lands, under click it plays
@@ -100,29 +100,56 @@ with no movement at all. The presenter view shows how many of a page's steps are
 `get_document` reads every motion name back; nothing about motion is reported as a diagnostic,
 because motion cannot make a page overflow.
 
-## Three ways to author, and what each gives you
+## Two ways to author a page, and the content decides
 
 - **A template page.** `list_templates` describes every composed page the shelf holds: its
-  blocks, its shape and its look, and when it suits. `add_template_page` adds one, and `set_page`
-  fills every slot of it in one call — the same call can change any block's style or shape. A
-  template's look is a starting arrangement, not a constraint.
-- **A page of your own.** When no template suits, `add_blank_page` opens an empty page and the
-  block tools — `add_items`, `add_stats`, `add_media`, `add_chart`, `add_diagram`, `add_table`,
-  `add_prose` — place blocks on it or in a column of an `add_layout`, with `variant`,
-  `arrangement`, `iconPosition` and `mark` on the write. A page built this way is as complete as
-  a template page; the shelf is a convenience, not a boundary.
-- **Markdown.** `import_markdown` lays down pages from text; its grammar is on the tool's own
-  description.
+  blocks, its shape and its look, and when it suits. `add_page` with a `templateId` adds one, and
+  `set_page` fills every slot of it in one call — the same call can change any block's style or
+  shape. A template's look is a starting arrangement, not a constraint.
+- **A page of your own.** `add_page` with no template opens an empty page, and `add_block` places
+  each block on it — or in a column of a layout, which is itself a block whose `type` is a layout
+  name — with `variant`, `arrangement`, `iconPosition` and `mark` on the write. A page built this
+  way is as complete as a template page. Reach for the shelf when a template fits the content;
+  build the page when the content wants what the shelf does not have. A deck mixes both.
 
-Afterwards, `set_block_type` swaps a block for another of the same archetype and keeps its
-content; the update tools (`update_items`, `update_prose` and the rest) rewrite content in place; `set_layout` changes a row's columns;
-`remove_block` and `remove_page` take things away. Names come from `list_blocks`,
-`describe_block` and the arguments themselves.
+Afterwards, `set_block` rewrites a block in place — its content, its `type` (another block of the
+same archetype, keeping every entry; or another column layout, keeping every block), or its
+look — and `remove` takes a page or a block away by id. Names come from `describe_block` (the
+menu with no type, one block in depth with one) and the arguments themselves.
+
+## Composing a page — the rules the shelf is made of
+
+A template is a frozen answer. These are the rules that produced it, so a page you compose
+yourself looks like one the shelf composed; the generated list further down shows each template
+as the pairing it is.
+
+- **One idea a page, two blocks at most.** A hero block carries the idea and one block supports
+  it: figures over a reading, a chart over its takeaway, a timeline beside its notes, a table
+  under a lead, a picture with its words. Three ideas are three pages.
+- **Equal weight goes side by side; a set goes in one block.** Two things a reader compares sit
+  in a two-column layout, each column one block. Three or more parallel things are items in one
+  box, one steps, one timeline — never three blocks stacked.
+- **Reading first, figures second, unless the number IS the point.** A page that argues opens
+  with a line of text (`text` at `lg` or `xl`) and puts the block under it; a page that reports
+  opens with the figures and explains beneath.
+- **A cover is a title, a subtitle and an accent.** Eyebrow for the occasion, a full or leading
+  accent picture, the `accent` surface if there is no picture. A divider is the same page with
+  three lines and no blocks. A closing page is one line at `xl` and nothing else.
+- **Vary the look on a rhythm, not at random.** Alternate text-heavy and figure pages. Give a
+  surface (`muted`, `subtle`) or an accent (`lead`, `trail`, `top`) to one page in three, and
+  never to two in a row. Keep one style family for the deck — `outlined` or `soft-fill` or
+  `raised-card` — and spend the other names on the one block that must stand out.
+- **The theme paints; you only name.** Never reach for a colour or a size. Choose the block, its
+  shape (`arrangement`), its style (`variant`), its mark, the page's surface and accent. If a
+  page reads flat, the fix is a second block or a look, not more words.
+- **Count what fits.** Each block names how many items its shapes are designed for; a figure
+  refuses outside its range. Two to four items read; six is a list, and a list wants the `list`
+  shape or its own page.
 
 ## Blocks, styles and shapes
 
 Every block belongs to an archetype, and every block sharing one takes identical content — which
-is what lets `set_block_type` turn a `box` into `steps` with nothing rewritten. A set with no
+is what lets `set_block` turn a `box` into `steps` with nothing rewritten. A set with no
 order is a `box`; ordered stages are `steps`; dated events a `timeline`; two to five headline
 numbers a `stat-row`; compared numbers a `chart`; what connects to what a `diagram`; values at
 the crossing of two things a `table`; a passage is prose, one paragraph per block, and a `text` block
@@ -139,7 +166,7 @@ style reads against a paper page and a bordered one against a tinted page.
 
 ### Every block
 
-Prose blocks — `text` (md/lg/xl/hero/sm), `heading`, `bullets`, `numbered`, `quote`, `checklist`, `separator`, `code` — go through `add_prose`, one line per block. The rest:
+Prose blocks — `text` (md/lg/xl/hero/sm), `heading`, `bullets`, `numbered`, `quote`, `checklist`, `separator`, `code` — go through `add_block` as `content`, one line per block, no type. The rest, by `type`:
 
 | Block | What it is | Items | Shapes (*figure = illustrated, count is a LIMIT) | Styles besides `plain` | Marks |
 |---|---|---|---|---|---|
@@ -206,6 +233,36 @@ Icon position on a block that draws icons: top, lead, none. A page's accent pict
 - `five-cols` (5 regions): Five parallel things.
 - `lead-and-rest` (2 regions): One thing that LEADS and something beside it — five-eighths and three-eighths.
 
+### How the shelf composes a page — the examples behind the rules
+
+Each template, as the blocks it stacks (→), the columns it divides ([a | b]) and the look it wears. Read them as PAIRINGS: what goes with what.
+
+- `cover`: `text` → `text` → `text` — accent full, surface accent
+- `title-and-figures`: `stat-row`
+- `title-pane`: `bullets` — accent lead
+- `agenda`: `steps` — accent lead
+- `divider`: `text` → `text` → `text` — surface accent
+- `checklist-and-line`: `checklist` → `text`
+- `claim-and-set`: `text` → `box`
+- `claim-beside-figures`: [`text` | `stat-row`]
+- `quote-and-source`: `quote` → `text` — accent trail
+- `lead-and-set`: `text` → `box`
+- `set-at-length`: `box` → `text`
+- `two-sides`: [`heading` + `bullets` | `heading` + `bullets`] → `text`
+- `table-and-lead`: `text` → `table`
+- `reading-in-columns`: [`heading` + `text` + `text` | `heading` + `numbered`] → `text`
+- `lead-and-sequence`: `text` → `steps`
+- `timeline-and-notes`: `timeline` → `text`
+- `figures-and-reading`: `stat-row` → `text`
+- `chart-and-takeaway`: `chart` → `text`
+- `diagram-and-legend`: `diagram` → `box`
+- `code-and-reading`: `code` → `text`
+- `picture-band-and-captions`: `image-grid` → `text`
+- `people-and-roles`: `text` → `people`
+- `picture-and-words`: `image-with-text` → `text`
+- `picture-and-line`: `text` → `image`
+- `video-and-framing`: `text` → `youtube`
+
 ### Icons, by shelf
 
 - Technology: cpu, database, server, cloud, terminal, network, layers, boxes, signal, zap
@@ -257,8 +314,17 @@ whether that number went down, up or did not move at all. No fit field on a repl
 page was measured and fits. A fit field means the page could not be measured: its diagnostics
 are still open, the document is fluid and cannot overflow, or the renderer had a problem.
 
-A page can also come back with a fill advisory — the page uses little of its frame — which is
-information and asks for no action; a divider or a single quotation is sparse on purpose.
+A page can also come back with a fill advisory — the page uses little of its frame — or a design
+note — the page is one block on plain paper, with no second block, no accent and no surface. Both
+are information and ask for no action; a divider or a single quotation is sparse on purpose.
+
+A deck of two or more pages whose first page has neither a title nor an accent picture gets a
+noCover diagnostic, on the document and on that page: a deck opens on a cover. Give the page a
+title with `set_page`, or an accent picture, or put a cover page from the shelf before it.
+
+The first `get_document` on a document nobody has written into yet carries the shelf as well —
+the same list `list_templates` gives — so the composed pages are in front of you before the first
+page is added.
 
 `get_document` returns the whole document: every page, every block with its id and archetype,
 and every diagnostic at once. It is how ids are learned and how the document is confirmed — a

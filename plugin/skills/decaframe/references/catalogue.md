@@ -1,6 +1,6 @@
 # The catalogue, in full
 
-Generated from the code by `pnpm skill`. What `list_blocks` and `describe_block` say, on one page.
+Generated from the code by `pnpm skill`. What `describe_block` says, on one page.
 
 ## `box` — Icon-led boxes, as a grid or a list. At one, a callout.
 
@@ -91,7 +91,7 @@ Styles: plain, accent-bar, soft-fill, outlined, top-rule, side-rule, raised-card
 
 Archetype `prose` · items 1 · draws: text
 
-Running text — an argument, a summary, a definition. The default when the content is sentences rather than a set of parallel things. Each paragraph is its own block, so send several in one add_prose call rather than packing them into one.
+Running text — an argument, a summary, a definition. The default when the content is sentences rather than a set of parallel things. Each paragraph is its own block, so send several in one add_block call rather than packing them into one.
 
 Shapes:
 
@@ -105,13 +105,13 @@ Shapes:
 
 Archetype `prose` · items 1 · draws: text
 
-Sits BELOW the page's own title, which is set with add_blank_page or set_page — use that for the title itself. This is for sectioning a long passage. `level` is 1 to 6 exactly as markdown's `#` to `######` are, and it defaults to 3 — so a document that says nothing about levels reads as it always has. Use 1 and 2 for a page that IS a section opener, and 4 to 6 only where a real outline needs the depth: they differ from each other in weight rather than size, because a 16:9 frame has no room for six visible steps.
+Sits BELOW the page's own title, which is set with add_page or set_page — use that for the title itself. This is for sectioning a long passage. `level` is 1 to 6 exactly as markdown's `#` to `######` are, and it defaults to 3 — so a document that says nothing about levels reads as it always has. Use 1 and 2 for a page that IS a section opener, and 4 to 6 only where a real outline needs the depth: they differ from each other in weight rather than size, because a 16:9 frame has no room for six visible steps.
 
 ## `bullets` — A bulleted list.
 
 Archetype `prose` · items 2–10 · draws: text
 
-Short parallel points that need no heading of their own — caveats, requirements, takeaways. Consecutive `bullets` lines in one add_prose call join into a single list. If each point deserves a heading AND a sentence, it is a box or steps, not a list.
+Short parallel points that need no heading of their own — caveats, requirements, takeaways. Consecutive `bullets` lines in one add_block call join into a single list. If each point deserves a heading AND a sentence, it is a box or steps, not a list.
 
 ## `numbered` — A numbered list.
 
