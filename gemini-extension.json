@@ -1,0 +1,11 @@
+{
+  "name": "decaframe",
+  "version": "0.4.1",
+  "description": "Design and author decks, reports and one-pagers: the decaframe MCP server",
+  "mcpServers": {
+    "decaframe": {
+      "command": "npx",
+      "args": ["-y", "decaframe", "mcp"]
+    }
+  }
+}

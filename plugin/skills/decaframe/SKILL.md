@@ -235,33 +235,33 @@ Icon position on a block that draws icons: top, lead, none. A page's accent pict
 
 ### How the shelf composes a page — the examples behind the rules
 
-Each template, as the blocks it stacks (→), the columns it divides ([a | b]) and the look it wears. Read them as PAIRINGS: what goes with what.
+Each page of the shipped set, as the blocks it stacks (→), the columns it divides ([a | b]) and the look it wears. Read them as PAIRINGS: what goes with what. They are examples, not a menu: the templates you can add are the ones `list_templates` returns, which may be a workspace's own set.
 
-- `cover`: `text` → `text` → `text` — accent full, surface accent
-- `title-and-figures`: `stat-row`
-- `title-pane`: `bullets` — accent lead
-- `agenda`: `steps` — accent lead
-- `divider`: `text` → `text` → `text` — surface accent
-- `checklist-and-line`: `checklist` → `text`
-- `claim-and-set`: `text` → `box`
-- `claim-beside-figures`: [`text` | `stat-row`]
-- `quote-and-source`: `quote` → `text` — accent trail
-- `lead-and-set`: `text` → `box`
-- `set-at-length`: `box` → `text`
-- `two-sides`: [`heading` + `bullets` | `heading` + `bullets`] → `text`
-- `table-and-lead`: `text` → `table`
-- `reading-in-columns`: [`heading` + `text` + `text` | `heading` + `numbered`] → `text`
-- `lead-and-sequence`: `text` → `steps`
-- `timeline-and-notes`: `timeline` → `text`
-- `figures-and-reading`: `stat-row` → `text`
-- `chart-and-takeaway`: `chart` → `text`
-- `diagram-and-legend`: `diagram` → `box`
-- `code-and-reading`: `code` → `text`
-- `picture-band-and-captions`: `image-grid` → `text`
-- `people-and-roles`: `text` → `people`
-- `picture-and-words`: `image-with-text` → `text`
-- `picture-and-line`: `text` → `image`
-- `video-and-framing`: `text` → `youtube`
+- Cover: `text` → `text` → `text` — accent full, surface accent
+- Title and figures: `stat-row`
+- Title pane: `bullets` — accent lead
+- Agenda: `steps` — accent lead
+- Divider: `text` → `text` → `text` — surface accent
+- Next steps and line: `steps` → `text`
+- Claim and set: `text` → `box`
+- Claim beside figures: [`text` + `text` | `stat-row`]
+- Quote and source: `quote` → `text` — accent trail
+- Lead and set: `text` → `box`
+- Set at length: `box` → `text`
+- Two sides: [`heading` + `bullets` | `heading` + `bullets`] → `text`
+- Table and lead: `text` → `table`
+- Reading in columns: [`heading` + `text` + `text` | `heading` + `numbered`] → `text`
+- Lead and sequence: `text` → `steps`
+- Timeline and notes: `timeline` → `text`
+- Figures and reading: `stat-row` → `text`
+- Chart and takeaway: `chart` → `text`
+- Diagram and legend: [`diagram` | `box` + `text`]
+- Code and reading: `code` → `text`
+- Picture band and captions: `image-grid` → `text`
+- People and roles: `text` → `people`
+- Picture and words: `image-with-text` → `text`
+- Picture and line: `text` → `image`
+- Video and framing: `text` → `youtube`
 
 ### Icons, by shelf
 
@@ -331,5 +331,5 @@ and every diagnostic at once. It is how ids are learned and how the document is 
 page that has not been read back is not known to exist. `export_html` writes one self-contained
 file; `open_document` points the tools at a different document file.
 
-Every block's complete guidance, and every template with what it wears, is in
-`references/catalogue.md`.
+Every block's complete guidance is in `references/catalogue.md`. The templates on offer, and what
+each wears, come from `list_templates`: the set is the account's and can be its own.
